@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "easy_model.gemspec",
     "lib/easy_model.rb",
     "lib/easy_model/base.rb",
     "lib/easy_model/column.rb",

@@ -1,0 +1,79 @@
+= easy_model
+
+データベースに依存しないモデルの基本クラスや, ActiveRecord と同じ型変換を行う属性定義メソッドを提供します.
+
+== データベースに依存しないモデル
+
+EasyModel::Base クラスを継承することでデータベースに依存しないモデルを手軽に作成できます.
+column メソッドを利用することで, ActiveRecord と同じ型変換が行われる属性を定義することができます.
+例として, 会員のログイン情報を保持するモデルは以下のように定義することができます.
+
+    #
+    # 会員ログインフォーム.
+    #
+    class UserLoginForm < EasyModel::Base
+
+      # 会員番号.
+      column :member_no, :integer
+      validates :member_no, :presence => true
+
+      # パスワード.
+      column :password, :string
+      validates :password, :presence => true
+
+      # ログイン状態を保持する (デフォルトは true).
+      column :remember, :boolean, :default => true
+
+    end
+
+== 検索フォーム
+
+検索フォームを表すモデルを作成する場合は, EasyModel::SearchForm を継承すると便利です.
+EasyModel::SearchForm は EasyModel::Base に検索用に便利な機能を追加したクラスです.
+EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返す scoped メソッドを定義する必要があります.
+
+以下に実装例を示します.
+
+    #
+    # 会員検索フォーム.
+    #
+    class UserSearchForm < EasyModel::Base
+
+      # 会員名.
+      column :name, :string
+
+      # 会員ステータス.
+      column :status, :integer
+      validates :status, :inclusion => [1, 2, 3]
+
+      #
+      # 検索条件を保持する ActiveRecord::Relation を返す.
+      #
+      def scoped
+        scoped = User.scoped
+
+        # 値が設定されている場合のみ検索条件に加える.
+        scoped = scoped.where(:name => name) if self.name.present?
+        scoped = scoped.where(:status => status) if self.status.present?
+
+        # 検索条件を含む scope
+        scoped
+      end
+
+    end
+
+EasyModel::SearchForm は find や all などのメソッドを scoped メソッドに移譲します.
+そのため, 以下のように ActiveRecord::Relation と同じインタフェースで利用することができます.
+
+    user_search_form = UserSearchForm.new(params[:user_search_form])
+
+    if user_search_form.valid?
+      users = user_search_form.all
+    else
+      ...
+    end
+
+== Copyright
+
+Copyright (c) 2012 Synergy Marketing, Inc. See LICENSE.txt for further details.
+

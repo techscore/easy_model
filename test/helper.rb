@@ -1,3 +1,5 @@
+# coding: utf-8
+
 if ENV['COVERAGE']
   require 'simplecov'
   SimpleCov.start do

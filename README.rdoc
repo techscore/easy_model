@@ -37,7 +37,7 @@ EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返�
     #
     # 会員検索フォーム.
     #
-    class UserSearchForm < EasyModel::Base
+    class UserSearchForm < EasyModel::SearchForm
 
       # 会員名.
       column :name, :string

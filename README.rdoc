@@ -1,34 +1,81 @@
 = easy_model
 
-データベースに依存しないモデルの基本クラスや, ActiveRecord と同じ型変換を行う属性定義メソッドを提供します.
+データベースに関連付かないモデルの基本クラスや,
+代入時に ActiveRecord と同じ型変換が行われる属性を定義する機能を提供します.
 
-== データベースに依存しないモデル
+== データベースに関連付かないモデル, 属性
 
-EasyModel::Base クラスを継承することでデータベースに依存しないモデルを手軽に作成できます.
-column メソッドを利用することで, ActiveRecord と同じ型変換が行われる属性を定義することができます.
-例として, 会員のログイン情報を保持するモデルは以下のように定義することができます.
+Rails3 ではネーミングルールやバリデーションを扱う機能がモジュール分けされているため,
+それらのモジュールを再利用することでデータベースに関連付かないモデルを作成することができます.
+コーディング自体は簡単ですが, いくつもあるモジュールを include するコードを何度も書くことは手間です.
+
+EasyModel::Base はデータベースに関連付かないモデルの基本クラスです.
+以下のように EasyModel::Base を継承すれば, そのような手間を省くことができます.
 
     #
-    # 会員ログインフォーム.
+    # ログインフォーム.
     #
-    class UserLoginForm < EasyModel::Base
+    class LoginForm < EasyModel::Base
+
+      ...
+
+    end
+
+属性を定義する場合は, 以下のように attr_accessor ではなく column メソッドを利用すると便利です.
+column メソッドを利用すると, 属性の型とデフォルト値を指定することができます.
+
+    #
+    # ログインフォーム.
+    #
+    class LoginForm < EasyModel::Base
 
       # 会員番号.
       column :member_no, :integer
-      validates :member_no, :presence => true
+
+      validates :member_no,
+                :presence     => true,
+                :numericality => {:only_integer => true}
 
       # パスワード.
       column :password, :string
-      validates :password, :presence => true
+
+      validates :password,
+                :presence => true
 
       # ログイン状態を保持する (デフォルトは true).
       column :remember, :boolean, :default => true
 
     end
 
+column メソッドで定義した属性は, 代入時に ActiveRecord と同様の型変換が行われます.
+
+    login_form = LoginForm.new(:member_no => '1234567',
+                               :password  => 'PASSWORD',
+                               :remember  => 'false')
+
+    login_form.member_no                  # => 1234567
+    login_form.member_no_before_type_cast # => '1234567'
+    login_form.password                   # => 'PASSWORD'
+    login_form.password_before_type_cast  # => 'PASSWORD'
+    login_form.remember                   # => false
+    login_form.remember_before_type_cast  # => 'false'
+
+データベースのテーブルに関連付いているモデルでも column メソッドを利用したい場合は,
+EasyModel::Column モジュールを include します.
+
+    class User < ActiveRecord::Base
+
+      include EasyModel::Column
+
+      column ...
+
+    end
+
+
+
 == 検索フォーム
 
-検索フォームを表すモデルを作成する場合は, EasyModel::SearchForm を継承すると便利です.
+検索フォームを表すモデルを作成する場合は, EasyModel::SearchForm を利用すると便利です.
 EasyModel::SearchForm は EasyModel::Base に検索用に便利な機能を追加したクラスです.
 EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返す scoped メソッドを定義する必要があります.
 
@@ -42,8 +89,9 @@ EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返�
       # 会員名.
       column :name, :string
 
-      # 会員ステータス.
+      # ステータス.
       column :status, :integer
+
       validates :status, :inclusion => [1, 2, 3]
 
       #
@@ -56,7 +104,7 @@ EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返�
         scoped = scoped.where(:name => name) if self.name.present?
         scoped = scoped.where(:status => status) if self.status.present?
 
-        # 検索条件を含む scope
+        # 検索条件を含む scope を返す.
         scoped
       end
 

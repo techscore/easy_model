@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "easy_model"
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["SUZUKI Kei"]
-  s.date = "2012-07-28"
+  s.date = "2012-07-30"
   s.description = "\u{30c7}\u{30fc}\u{30bf}\u{30d9}\u{30fc}\u{30b9}\u{306b}\u{4f9d}\u{5b58}\u{3057}\u{306a}\u{3044}\u{30e2}\u{30c7}\u{30eb}\u{306e}\u{57fa}\u{672c}\u{30af}\u{30e9}\u{30b9}\u{3084}, ActiveRecord \u{3068}\u{540c}\u{3058}\u{578b}\u{5909}\u{63db}\u{3092}\u{884c}\u{3046}\u{5c5e}\u{6027}\u{5b9a}\u{7fa9}\u{30e1}\u{30bd}\u{30c3}\u{30c9}\u{3092}\u{63d0}\u{4f9b}\u{3057}\u{307e}\u{3059}."
   s.email = "info-techscore@synergy101.jp"
   s.extra_rdoc_files = [

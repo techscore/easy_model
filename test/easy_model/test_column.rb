@@ -7,7 +7,36 @@ class EasyModel::TestColumn < Test::Unit::TestCase
   def test_has_column_method
     model = Class.new
     model.send(:include, EasyModel::Column)
+    model.send(:column, :integer_column, :integer)
     assert model.protected_methods.include?(:column)
+
+    object = model.new
+    assert object.respond_to?(:integer_column)
+    assert object.respond_to?(:integer_column=)
+    assert object.respond_to?(:integer_column_before_type_cast)
+  end
+
+  def test_before_type_cast
+    model = Class.new
+    model.send(:include, EasyModel::Column)
+    model.send(:column, :integer_column, :integer)
+    object = model.new
+
+    object.integer_column = ''
+    assert_nil object.integer_column
+    assert_nil object.integer_column_before_type_cast
+
+    object.integer_column = '777'
+    assert_equal 777, object.integer_column
+    assert_equal '777', object.integer_column_before_type_cast
+
+    object.integer_column = true
+    assert_equal 1, object.integer_column
+    assert_equal true, object.integer_column_before_type_cast
+
+    object.integer_column = false
+    assert_equal 0, object.integer_column
+    assert_equal false, object.integer_column_before_type_cast
   end
 
   def test_string_column

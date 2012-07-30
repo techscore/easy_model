@@ -40,7 +40,13 @@ module EasyModel::Column::ClassMethods
   def column(name, type, options={})
     ActiveRecord::ConnectionAdapters::Column.new(name, options[:default], type, true).tap do |column|
       define_method("#{name}=") do |value|
+        value = nil if column.number? and value.kind_of?(String) and value.blank?
+        instance_variable_set("@#{name}_before_type_cast", value)
         instance_variable_set("@#{name}", column.type_cast(value))
+      end
+      define_method("#{name}_before_type_cast") do
+        instance_variable_set("@#{name}_before_type_cast", column.default) unless instance_variable_defined?("@#{name}_before_type_cast")
+        instance_variable_get("@#{name}_before_type_cast")
       end
       define_method(name) do
         instance_variable_set("@#{name}", column.default) unless instance_variable_defined?("@#{name}")

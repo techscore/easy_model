@@ -71,7 +71,7 @@ EasyModel::Base を継承しないモデルでも column メソッドを使用�
 
     end
 
-== 国際化 ==
+== 国際化
 
 国際化は I18n で行われます.
 デフォルトでは '<locale>.easy_model' 以下がルックアップされます.

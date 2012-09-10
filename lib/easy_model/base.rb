@@ -17,10 +17,32 @@ class EasyModel::Base
   #
   # ==== 引数
   # attributes::
-  #   属性値を保持する Hash.
+  #   属性名と属性値を保持する Hash.
   #
   def initialize(attributes=nil)
-    (attributes || {}).each do |name, value|
+    assign_attributes(attributes)
+  end
+
+  #
+  # 属性を一括代入する.
+  #
+  # ==== 引数
+  # new_attributes::
+  #   属性名と属性値を保持する Hash.
+  #
+  def attributes=(new_attributes)
+    assign_attributes(new_attributes)
+  end
+
+  #
+  # 属性を一括代入する.
+  #
+  # ==== 引数
+  # new_attributes::
+  #   属性名と属性値を保持する Hash.
+  #
+  def assign_attributes(new_attributes)
+    (new_attributes || {}).each do |name, value|
       send("#{name}=", value)
     end
   end

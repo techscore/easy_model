@@ -21,8 +21,8 @@ EasyModel::Base はデータベースに関連付かないモデルの基本ク�
 
     end
 
-属性を定義する場合は, 以下のように attr_accessor ではなく column メソッドを利用すると便利です.
-column メソッドを利用すると, 属性の型とデフォルト値を指定することができます.
+属性を定義する場合は, 以下のように attr_accessor ではなく column メソッドを使用します.
+column メソッドを使用すると, 属性の型とデフォルト値を指定することができます.
 
     #
     # ログインフォーム.
@@ -60,8 +60,8 @@ column メソッドで定義した属性は, 代入時に ActiveRecord と同様
     login_form.remember                   # => false
     login_form.remember_before_type_cast  # => 'false'
 
-データベースのテーブルに関連付いているモデルでも column メソッドを利用したい場合は,
-EasyModel::Column モジュールを include します.
+EasyModel::Column モジュールを include することで,
+EasyModel::Base を継承しないモデルでも column メソッドを使用することができます.
 
     class User < ActiveRecord::Base
 

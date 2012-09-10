@@ -71,7 +71,30 @@ EasyModel::Base を継承しないモデルでも column メソッドを使用�
 
     end
 
+== 国際化 ==
 
+国際化は I18n で行われます.
+デフォルトでは '<locale>.easy_model' 以下がルックアップされます.
+
+  ja:
+    easy_model:
+      models:
+        user_search_form: 会員検索フォーム
+      attributes:
+        user:
+          name: 会員名
+          status: ステータス
+
+EasyModel::Base.i18n_scope を上書きすることで, ルックアップされるキーを変更することができます.
+例えば, ActiveRecord と同じキーを参照させたい場合は, 以下のように上書きします.
+
+    class UserSearchForm < EasyModel::Base
+
+      def self.i18n_scope
+        :activerecord
+      end
+
+    end
 
 == 検索フォーム
 

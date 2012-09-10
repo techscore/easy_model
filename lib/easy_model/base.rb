@@ -13,6 +13,13 @@ class EasyModel::Base
   include EasyModel::Column
 
   #
+  # ロケールファイルからルックアップするときのキー.
+  #
+  def self.i18n_scope
+    :easy_model
+  end
+
+  #
   # 指定された属性値で初期化する.
   #
   # ==== 引数

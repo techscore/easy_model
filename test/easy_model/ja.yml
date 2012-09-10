@@ -1,0 +1,10 @@
+ja:
+  easy_model:
+    models:
+      user: ユーザ
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        age: 年齢
+

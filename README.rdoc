@@ -81,7 +81,7 @@ EasyModel::Base を継承しないモデルでも column メソッドを使用�
       models:
         user_search_form: 会員検索フォーム
       attributes:
-        user:
+        user_search_form:
           name: 会員名
           status: ステータス
 

@@ -1,7 +1,7 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'activemodel', '>= 3.0.0'
-gem 'activerecord', '>= 3.0.0'
+gem 'activemodel', '~> 3.0'
+gem 'activerecord', '~> 3.0'
 
 group :development do
   gem 'rdoc', '>= 3.12'

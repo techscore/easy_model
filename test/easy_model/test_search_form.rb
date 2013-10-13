@@ -23,5 +23,11 @@ class EasyModel::TestSearchForm < Test::Unit::TestCase
     assert_equal 'to_xml called', object.to_xml
   end
 
+  def test_scoped
+    assert_raise(NotImplementedError) do
+      Class.new(EasyModel::SearchForm).new.scoped
+    end
+  end
+
 end
 

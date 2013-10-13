@@ -2,7 +2,7 @@
 
 if ENV['COVERAGE']
   require 'simplecov'
-  SimpleCov.start do
+  SimpleCov.start('rails') do
     coverage_dir File.join('coverage')
   end
 end

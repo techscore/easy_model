@@ -17,3 +17,6 @@ vendor
 # jeweler generated
 pkg
 
+# sqlite3
+test.sqlite3
+

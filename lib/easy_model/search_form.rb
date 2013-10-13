@@ -8,7 +8,9 @@
 # 派生クラスは ActiveRecord::Relation を返す scoped メソッドを定義しなければならない.
 # scoped メソッドの戻り値には all や exists? などの処理が delegate される.
 #
-class EasyModel::SearchForm < EasyModel::Base
+class EasyModel::SearchForm
+
+  include EasyModel::Column
 
   # from active_record/querying.rb
   delegate :find, :first, :first!, :last, :last!, :all, :exists?, :any?, :many?, :to => :scoped

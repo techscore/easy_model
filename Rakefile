@@ -16,8 +16,16 @@ Jeweler::Tasks.new do |gem|
   gem.name = 'easy_model'
   gem.homepage = 'http://github.com/techscore/easy_model'
   gem.license = 'BSD'
-  gem.summary = 'データベースに依存しないモデルの基本クラスや, ActiveRecord と同じ型変換を行う属性定義メソッドを提供します.'
-  gem.description = 'データベースに依存しないモデルの基本クラスや, ActiveRecord と同じ型変換を行う属性定義メソッドを提供します.'
+  gem.summary = <<-'EOS'
+    EasyModel provides features of database independent attribute.
+    データベースに関連付かない属性を定義する機能を提供します.
+  EOS
+  gem.description = <<-'EOS'
+    EasyModel provides features of database independent attribute.
+    You can define the attribute like ActiveRecord that perform data conversion during assignment.
+    データベースに関連付かない属性を定義する機能を提供します.
+    代入時に ActiveRecord と同様の型変換が行われる属性を定義することができます.
+  EOS
   gem.email = 'info-techscore@synergy101.jp'
   gem.authors = ['SUZUKI Kei']
 end

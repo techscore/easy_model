@@ -1,53 +1,23 @@
 = easy_model
 
-データベースに関連付かないモデルの基本クラスや,
-代入時に ActiveRecord と同じ型変換が行われる属性を定義する機能を提供します.
+EasyModel provides features of database independent attribute.
+You can define the attribute like ActiveRecord that perform data conversion during assignment.
 
-== データベースに関連付かないモデル, 属性
+== Define database independent attribute
 
-Rails3 ではネーミングルールやバリデーションを扱う機能がモジュール分けされているため,
-それらのモジュールを再利用することでデータベースに関連付かないモデルを作成することができます.
-コーディング自体は簡単ですが, いくつもあるモジュールを include するコードを何度も書くことは手間です.
+First, include EasyModel to your model. Next define attribute by `column` method.
 
-EasyModel::Base はデータベースに関連付かないモデルの基本クラスです.
-以下のように EasyModel::Base を継承すれば, そのような手間を省くことができます.
+    class LoginForm
 
-    #
-    # ログインフォーム.
-    #
-    class LoginForm < EasyModel::Base
+      include EasyModel::Column
 
-      ...
-
-    end
-
-属性を定義する場合は, 以下のように attr_accessor ではなく column メソッドを使用します.
-column メソッドを使用すると, 属性の型とデフォルト値を指定することができます.
-
-    #
-    # ログインフォーム.
-    #
-    class LoginForm < EasyModel::Base
-
-      # 会員番号.
       column :member_no, :integer
-
-      validates :member_no,
-                :presence     => true,
-                :numericality => {:only_integer => true}
-
-      # パスワード.
       column :password, :string
-
-      validates :password,
-                :presence => true
-
-      # ログイン状態を保持する (デフォルトは true).
-      column :remember, :boolean, :default => true
+      column :remember, :boolan, default: false
 
     end
 
-column メソッドで定義した属性は, 代入時に ActiveRecord と同様の型変換が行われます.
+When you assign a value to attribute defined by `column` method, a value is converted to attribute's data type (like ActiveRecord).
 
     login_form = LoginForm.new(:member_no => '1234567',
                                :password  => 'PASSWORD',
@@ -60,35 +30,27 @@ column メソッドで定義した属性は, 代入時に ActiveRecord と同様
     login_form.remember                   # => false
     login_form.remember_before_type_cast  # => 'false'
 
-EasyModel::Column モジュールを include することで,
-EasyModel::Base を継承しないモデルでも column メソッドを使用することができます.
+== Internationalization
 
-    class User < ActiveRecord::Base
+EasyModel uses I18n to internationalization.
+By default, the look up key is `<locale>.easy_model`.
 
-      include EasyModel::Column
-
-      column ...
-
-    end
-
-== 国際化
-
-国際化は I18n で行われます.
-デフォルトでは '<locale>.easy_model' 以下がルックアップされます.
-
-  ja:
+  en:
     easy_model:
       models:
-        user_search_form: 会員検索フォーム
+        login_form: Login form
       attributes:
-        user_search_form:
-          name: 会員名
-          status: ステータス
+        login_form:
+          member_no: Member number
+          password: Password
+          remember: Keep the login state.
 
-EasyModel::Base.i18n_scope を上書きすることで, ルックアップされるキーを変更することができます.
-例えば, ActiveRecord と同じキーを参照させたい場合は, 以下のように上書きします.
+By define the `i18n_scope` method, you can change the look up key.
+For example, to use the look up key same as ActiveRecord:
 
-    class UserSearchForm < EasyModel::Base
+    class LoginForm
+
+      include EasyModel::Column
 
       def self.i18n_scope
         :activerecord
@@ -96,45 +58,37 @@ EasyModel::Base.i18n_scope を上書きすることで, ルックアップされ
 
     end
 
-== 検索フォーム
+== Search form
 
-検索フォームを表すモデルを作成する場合は, EasyModel::SearchForm を利用すると便利です.
-EasyModel::SearchForm は EasyModel::Base に検索用に便利な機能を追加したクラスです.
-EasyModel::SearchForm を継承したクラスは ActiveRecord::Relation を返す scoped メソッドを定義する必要があります.
+EasyModel::SearchForm is useful to create search form model.
+EasyModel::SearchForm includes EasyModel::Column, and provides useful features to searching.
+Only define the `scoped` method, you can use query method same as ActiveRecord.
 
-以下に実装例を示します.
+For example:
 
-    #
-    # 会員検索フォーム.
-    #
     class UserSearchForm < EasyModel::SearchForm
 
-      # 会員名.
       column :name, :string
 
-      # ステータス.
       column :status, :integer
 
       validates :status, :inclusion => [1, 2, 3]
 
-      #
-      # 検索条件を保持する ActiveRecord::Relation を返す.
-      #
       def scoped
-        scoped = User.scoped
+        scoped = User.all
 
-        # 値が設定されている場合のみ検索条件に加える.
+        # Add to conditions if value is present.
         scoped = scoped.where(:name => name) if self.name.present?
         scoped = scoped.where(:status => status) if self.status.present?
 
-        # 検索条件を含む scope を返す.
+        # Return scope including search conditions.
         scoped
       end
 
     end
 
-EasyModel::SearchForm は find や all などのメソッドを scoped メソッドに移譲します.
-そのため, 以下のように ActiveRecord::Relation と同じインタフェースで利用することができます.
+Query methods (i.e. find, all, ...) is delegated to `scoped` method.
+So, you can use the interface same as ActiveRecord::Relation.
 
     user_search_form = UserSearchForm.new(params[:user_search_form])
 

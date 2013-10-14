@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = "easy_model"
-  s.version = "2.0.0"
+  s.version = "2.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["SUZUKI Kei"]
   s.date = "2013-10-14"
-  s.description = "\u{30c7}\u{30fc}\u{30bf}\u{30d9}\u{30fc}\u{30b9}\u{306b}\u{4f9d}\u{5b58}\u{3057}\u{306a}\u{3044}\u{30e2}\u{30c7}\u{30eb}\u{306e}\u{57fa}\u{672c}\u{30af}\u{30e9}\u{30b9}\u{3084}, ActiveRecord \u{3068}\u{540c}\u{3058}\u{578b}\u{5909}\u{63db}\u{3092}\u{884c}\u{3046}\u{5c5e}\u{6027}\u{5b9a}\u{7fa9}\u{30e1}\u{30bd}\u{30c3}\u{30c9}\u{3092}\u{63d0}\u{4f9b}\u{3057}\u{307e}\u{3059}."
+  s.description = "    EasyModel provides features of database independent attribute.\n    You can define the attribute like ActiveRecord that perform data conversion during assignment.\n    \u{30c7}\u{30fc}\u{30bf}\u{30d9}\u{30fc}\u{30b9}\u{306b}\u{95a2}\u{9023}\u{4ed8}\u{304b}\u{306a}\u{3044}\u{5c5e}\u{6027}\u{3092}\u{5b9a}\u{7fa9}\u{3059}\u{308b}\u{6a5f}\u{80fd}\u{3092}\u{63d0}\u{4f9b}\u{3057}\u{307e}\u{3059}.\n    \u{4ee3}\u{5165}\u{6642}\u{306b} ActiveRecord \u{3068}\u{540c}\u{69d8}\u{306e}\u{578b}\u{5909}\u{63db}\u{304c}\u{884c}\u{308f}\u{308c}\u{308b}\u{5c5e}\u{6027}\u{3092}\u{5b9a}\u{7fa9}\u{3059}\u{308b}\u{3053}\u{3068}\u{304c}\u{3067}\u{304d}\u{307e}\u{3059}.\n"
   s.email = "info-techscore@synergy101.jp"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.licenses = ["BSD"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.3"
-  s.summary = "\u{30c7}\u{30fc}\u{30bf}\u{30d9}\u{30fc}\u{30b9}\u{306b}\u{4f9d}\u{5b58}\u{3057}\u{306a}\u{3044}\u{30e2}\u{30c7}\u{30eb}\u{306e}\u{57fa}\u{672c}\u{30af}\u{30e9}\u{30b9}\u{3084}, ActiveRecord \u{3068}\u{540c}\u{3058}\u{578b}\u{5909}\u{63db}\u{3092}\u{884c}\u{3046}\u{5c5e}\u{6027}\u{5b9a}\u{7fa9}\u{30e1}\u{30bd}\u{30c3}\u{30c9}\u{3092}\u{63d0}\u{4f9b}\u{3057}\u{307e}\u{3059}."
+  s.summary = "EasyModel provides features of database independent attribute. \u{30c7}\u{30fc}\u{30bf}\u{30d9}\u{30fc}\u{30b9}\u{306b}\u{95a2}\u{9023}\u{4ed8}\u{304b}\u{306a}\u{3044}\u{5c5e}\u{6027}\u{3092}\u{5b9a}\u{7fa9}\u{3059}\u{308b}\u{6a5f}\u{80fd}\u{3092}\u{63d0}\u{4f9b}\u{3057}\u{307e}\u{3059}."
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

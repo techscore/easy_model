@@ -50,13 +50,6 @@ module EasyModel::ColumnForActiveRecord::ClassMethods
     (@easy_model_attribute_names || []).dup
   end
 
-  #
-  # ロケールファイルからルックアップするときのキー.
-  #
-  def i18n_scope
-    :easy_model
-  end
-
   protected
 
   #

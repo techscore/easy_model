@@ -9,6 +9,7 @@ end
 
 require 'rubygems'
 require 'bundler'
+require "minitest/autorun"
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e

@@ -1,6 +1,6 @@
 # coding: utf-8
-
-require File.join(File.dirname(__FILE__), '..', 'helper')
+require File.join(Dir::pwd, 'test', 'helper.rb')
+# require File.join(File.dirname(__FILE__), '..', 'helper')
 
 class EasyModel::TestSearchForm < Test::Unit::TestCase
 

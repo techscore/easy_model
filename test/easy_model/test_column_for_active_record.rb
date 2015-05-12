@@ -1,6 +1,6 @@
 # coding: utf-8
-
-require File.join(File.dirname(__FILE__), '..', 'helper')
+require File.join(Dir::pwd, 'test', 'helper.rb')
+# require File.join(File.dirname(__FILE__), '..', 'helper')
 
 class EasyModel::TestColumnForActiveRecord < Test::Unit::TestCase
 
@@ -72,11 +72,11 @@ class EasyModel::TestColumnForActiveRecord < Test::Unit::TestCase
 
   def test_i18n_scope
     model = new_model
-    assert_equal :easy_model, model.i18n_scope
-    assert_equal 'ユーザ', model.model_name.human
-    assert_equal '名前', model.human_attribute_name(:name)
-    assert_equal 'メールアドレス', model.human_attribute_name(:email)
-    assert_equal '年齢', model.human_attribute_name(:age)
+    assert_equal :activerecord, model.i18n_scope
+    assert_equal 'ゆーざー', model.model_name.human
+    assert_equal 'なまえ', model.human_attribute_name(:name)
+    assert_equal 'めーるあどれす', model.human_attribute_name(:email)
+    assert_equal 'ねんれい', model.human_attribute_name(:age)
   end
 
   def test_persisted?

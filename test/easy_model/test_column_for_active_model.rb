@@ -1,6 +1,6 @@
 # coding: utf-8
-
-require File.join(File.dirname(__FILE__), '..', 'helper')
+require File.join(Dir::pwd, 'test', 'helper.rb')
+# require File.join(File.dirname(__FILE__), '..', 'helper')
 
 class EasyModel::TestColumnForActiveModel < Test::Unit::TestCase
 
@@ -82,7 +82,7 @@ class EasyModel::TestColumnForActiveModel < Test::Unit::TestCase
     assert_equal nil, object.age_was
     assert_equal [nil, 20], object.age_change
 
-    object.reset_changes
+    object.send(:clear_changes_information)
     assert_equal false, object.changed?
 
     object.age = 21

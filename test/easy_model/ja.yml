@@ -7,4 +7,12 @@ ja:
         name: 名前
         email: メールアドレス
         age: 年齢
+  activerecord:
+    models:
+      user: ゆーざー
+    attributes:
+      user:
+        name: なまえ
+        email: めーるあどれす
+        age: ねんれい
 

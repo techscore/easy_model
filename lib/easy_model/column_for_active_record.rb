@@ -64,14 +64,18 @@ module EasyModel::ColumnForActiveRecord::ClassMethods
   # 定義したカラムを表す ActiveRecord::ConnectionAdapters::Column オブジェクト.
   #
   def column(name, type, options={})
+    cast_type = "ActiveRecord::Type::#{type.to_s.capitalize}"
+    cast_type = "ActiveRecord::Type::DateTime" if type.to_s == "datetime"
+    cast_type = "ActiveRecord::Type::Time" if type.to_s == "timestamp"
+
     (@easy_model_attribute_names ||= []) << name.to_s
 
-    ActiveRecord::ConnectionAdapters::Column.new(name, options[:default], type, true).tap do |column|
+    ActiveRecord::ConnectionAdapters::Column.new(name, options[:default], cast_type.classify.constantize.new, type, true).tap do |column|
       define_method("#{name}=") do |value|
         value = nil if column.number? and value.kind_of?(String) and value.blank?
         return if value == send(name)
         instance_variable_set("@#{name}_before_type_cast", value)
-        instance_variable_set("@#{name}", column.type_cast(value))
+        instance_variable_set("@#{name}", column.cast_type.type_cast_from_user(value))
       end
       define_method("#{name}_before_type_cast") do
         instance_variable_set("@#{name}_before_type_cast", column.default) unless instance_variable_defined?("@#{name}_before_type_cast")
